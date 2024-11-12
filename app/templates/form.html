@@ -1,0 +1,9 @@
+{% from "_formhelpers.html" import render_field %}
+
+<p>form.question</p>
+<form method=post>
+  <dl>
+    {{ render_field(form.answer) }}
+  </dl>
+  <p><input type=submit value=Submit>
+</form>
