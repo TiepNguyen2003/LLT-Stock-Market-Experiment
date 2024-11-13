@@ -5,12 +5,7 @@ from wtforms.validators import DataRequired, Email
 from sqlalchemy.orm import sessionmaker
 
 
-class QuestionForm(FlaskForm):
+class idForm(FlaskForm):
     answer = IntegerField('Number', validators=[DataRequired(), validators.NumberRange(min=-2000, max=2000)])
     submit = SubmitField('Submit')
-
-    '''def __init__(self, question_text=None, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        if question_text:
-            self.questionText = question_text'''
 
