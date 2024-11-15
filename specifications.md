@@ -22,9 +22,13 @@ The class Trial represents a trial. It has a unique audio peek, stimulus and a l
 - Details
     - Pages
         - Session Creation
-        - Question Answer
-        - Complete
+        - Question Page
+            - 
+        - Info
+            - Contains information about the questions completed so far and missing questions, money they have etc
     - Database for answers
     
 
 https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world
+
+https://github.com/fatematzuhora/Flask-SQLAlchemy-RESTful-CRUD/blob/master/app/routes.py

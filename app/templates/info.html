@@ -6,4 +6,15 @@
         <h1>Hi, {{ Participant.id }}!</h1>
         <p> Balance = {{ Participant.balance }}</p>
     </body>
+
+    <form method=post>
+    
+        {{ form.csrf_token }}
+      <dl>
+        {{ form.submit()}}
+      </dl>
+      
+    </form>
+
+
 {% endblock %}

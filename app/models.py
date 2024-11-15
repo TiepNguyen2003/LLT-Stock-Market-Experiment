@@ -2,7 +2,9 @@ from typing import Optional
 import sqlalchemy as sa
 import sqlalchemy.orm as so
 import json
-from app import db
+
+
+from app import db, DEFAULT_BALANCE
 
 
 class Participant(db.Model):
@@ -12,9 +14,9 @@ class Participant(db.Model):
     balance: so.Mapped[int] = so.mapped_column(unique = False)
   
     first_response_id: so.Mapped[Optional[int]] = so.mapped_column(sa.ForeignKey('responses.id'), nullable=True)
-    first_response = so.relationship("Response", back_populates="participant", uselist=False)
+    first_response = so.relationship("Response",back_populates="participant", uselist=False, foreign_keys=[first_response_id], lazy = "joined")
 
-    def __init__(self, id = None, balance = None):
+    def __init__(self, id = None, balance = DEFAULT_BALANCE):
         self.id = id
         self.balance = balance
     def __repr__(self):
@@ -40,6 +42,7 @@ class Participant(db.Model):
                 cur = cur.next_response
 
             cur.addResponse(response)
+        
         db.session.commit()
 
     '''
@@ -51,29 +54,26 @@ class Participant(db.Model):
         else:
             return False
 
-
-def get_participant(id):
-    return db.session.get(Participant, int(id))
-
 class Response(db.Model):
     __tablename__ = 'responses'
     
     id: so.Mapped[int] = so.mapped_column(primary_key=True)
-
+    questionNumber = so.Mapped[int] = so.mapped_column(unique=False)
     # Cost is a positive value that represents how much the participant pent in this response.
     cost: so.Mapped[int] = so.mapped_column(nullable=False)
     
     # Foreign key to the participant, for the first response
     participant_id: so.Mapped[Optional[int]] = so.mapped_column(sa.ForeignKey('participants.id'), nullable=True)
-    participant = so.relationship("Participant")
+    participant = so.relationship("Participant", foreign_keys=[participant_id])
     
     # Foreign key to the next response in the chain (self-referencing)
     next_response_id: so.Mapped[Optional[int]] = so.mapped_column(sa.ForeignKey('responses.id'), nullable=True)
     next_response = so.relationship("Response")
 
-    def __init__(self, cost):
+    def __init__(self, cost, questionNumber):
         
         self.cost = cost
+        self.questionNumber = questionNumber
         
 
 

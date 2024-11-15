@@ -2,6 +2,10 @@ from flask import render_template, request, flash, make_response, redirect, url_
 from app import app, db
 from app.questionForm import QuestionForm
 from app.idForm import idForm
+from app.participantHelper import ParticipantHelper
+from app.signoutForm import SignoutForm
+from app.models import Response, Participant
+
 
 '''@app.route('/index', methods=['GET', 'POST'])
 def index():
@@ -13,6 +17,10 @@ def index():
 
 @app.route('/', methods=['GET', 'POST'])
 def idSignup():
+
+    user_id = request.cookies.get('user_id')  # Get the user_id from cookies
+    if user_id is not None:  # If the cookie is not set, handle the case (e.g., redirect or show an error)
+        return redirect(url_for('info'))
     
     form = idForm(request.form)
     resp = make_response(render_template('form.html', form=form, questionContent = "Put in your ID here"))
@@ -22,7 +30,9 @@ def idSignup():
         resp = make_response(redirect(url_for('info')))
         user_id = form.answer.data
         
-        user = db.session
+        if (ParticipantHelper.getParticipant(user_id) is None):
+            print("Adding participant " + str(user_id))
+            ParticipantHelper.addParticipant(user_id)
         
         resp.set_cookie('user_id', str(user_id), max_age=60*60*3)  # expires after 3 hours
         
@@ -33,19 +43,25 @@ def idSignup():
 
     return resp
 
-@app.route('/info')
+@app.route('/info', methods=["GET", "POST"])
 def info():
+
+    form = SignoutForm(request.form)
     user_id = request.cookies.get('user_id')  # Get the user_id from cookies
     
-    if user_id is None:  # If the cookie is not set, handle the case (e.g., redirect or show an error)
-        return "User ID not found in cookies.", 400  # Example of handling missing user_id
-    
-    participantTest = {
-        'id': user_id,
-        'balance': 2500  # Store balance as an integer
-    }
 
-    return render_template('info.html', Participant=participantTest)
+    if user_id is None:  # If the cookie is not set, handle the case (e.g., redirect or show an error)
+        return redirect(url_for('idSignup'))
+    
+    if request.method == 'POST' and form.validate():
+        resp = make_response(redirect(url_for('idSignup')))
+        resp.set_cookie('user_id', '', expires=0)
+        return resp
+
+    participant = ParticipantHelper.getParticipant(user_id)
+    
+
+    return render_template('info.html', form = form, Participant=participant)
 
 
 @app.route('/question', methods=['GET', 'POST'])
@@ -58,7 +74,9 @@ def question():
 
     form = QuestionForm(request.form)
     if request.method == 'POST' and form.validate():
-       
-        print("Received answer")
+        formCost = form.answer.data
+        ParticipantHelper.addResponse(user_id, formCost, -5)
+
+
     return render_template('form.html', form=form, questionContent = "Put in your question response here")
 
