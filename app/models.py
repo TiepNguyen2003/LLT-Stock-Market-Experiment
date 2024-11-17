@@ -14,7 +14,7 @@ class Participant(db.Model):
     balance: so.Mapped[int] = so.mapped_column(unique = False)
   
     first_response_id: so.Mapped[Optional[int]] = so.mapped_column(sa.ForeignKey('responses.id'), nullable=True)
-    first_response = so.relationship("Response",back_populates="participant", uselist=False, foreign_keys=[first_response_id], lazy = "joined")
+    first_response = so.relationship("Response", uselist=False, foreign_keys=[first_response_id], lazy = "joined")
 
     def __init__(self, id = None, balance = DEFAULT_BALANCE):
         self.id = id
@@ -24,14 +24,15 @@ class Participant(db.Model):
 
     def addResponse(self, response : 'Response'):
         if (self.validResponse(response) is False):
-            return
+            raise ValueError("Cost is not valid")
+
 
         if (self.first_response_id is None):
             self.first_response_id = response.id
             self.first_response = response
             self.balance -= response.cost
 
-            response.participant = self
+            #response.participant = self
             response.participant_id = self.id
 
            
@@ -57,18 +58,18 @@ class Participant(db.Model):
 class Response(db.Model):
     __tablename__ = 'responses'
     
-    id: so.Mapped[int] = so.mapped_column(primary_key=True)
-    questionNumber = so.Mapped[int] = so.mapped_column(unique=False)
+    id: so.Mapped[int] = so.mapped_column(primary_key=True, autoincrement=True)
+    questionNumber: so.Mapped[int] = so.mapped_column(unique=False)
     # Cost is a positive value that represents how much the participant pent in this response.
     cost: so.Mapped[int] = so.mapped_column(nullable=False)
     
     # Foreign key to the participant, for the first response
     participant_id: so.Mapped[Optional[int]] = so.mapped_column(sa.ForeignKey('participants.id'), nullable=True)
-    participant = so.relationship("Participant", foreign_keys=[participant_id])
+    #participant = so.relationship("Participant", foreign_keys=[participant_id], lazy="joined")
     
     # Foreign key to the next response in the chain (self-referencing)
-    next_response_id: so.Mapped[Optional[int]] = so.mapped_column(sa.ForeignKey('responses.id'), nullable=True)
-    next_response = so.relationship("Response")
+    #next_response_id: so.Mapped[Optional[int]] = so.mapped_column(sa.ForeignKey('responses.id'), nullable=True)
+    next_response = so.relationship("Response", foreign_keys=[id])
 
     def __init__(self, cost, questionNumber):
         
@@ -81,10 +82,10 @@ class Response(db.Model):
         if (self.next_response_id is not None):
             raise ValueError("Response already has a next response!")
 
-        response.participant = self.participant
+        #response.participant = self.participant
         response.participant_id = self.id   
         response.next_response = self.next_response
-        response.next_response_id = self.next_response_id
+        #response.next_response_id = self.next_response_id
 
         db.session.commit()
 

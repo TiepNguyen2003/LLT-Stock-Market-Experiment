@@ -75,8 +75,13 @@ def question():
     form = QuestionForm(request.form)
     if request.method == 'POST' and form.validate():
         formCost = form.answer.data
-        ParticipantHelper.addResponse(user_id, formCost, -5)
+        success = ParticipantHelper.addResponse(user_id, formCost, -5)
 
+        if (success):
+            return redirect(url_for('info'))
+        else:
+            print("Invalid response cost")
+        
 
     return render_template('form.html', form=form, questionContent = "Put in your question response here")
 

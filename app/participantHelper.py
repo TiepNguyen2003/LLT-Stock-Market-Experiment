@@ -23,6 +23,19 @@ class ParticipantHelper():
         participant = Participant(id)
         db.session.add(participant)
         db.session.commit()
+    def addResponse(participantID, responseCost, questionNumber):
+        participant = ParticipantHelper.getParticipant(participantID)
+        if (participant is None):
+            raise ValueError("Participant " + id + " does not exist")
+
+        response = Response(responseCost, questionNumber)
+        if (participant.validResponse(response) == False):
+            return False
+
+        participant.addResponse(response)
+
+
+        
     
 
 
