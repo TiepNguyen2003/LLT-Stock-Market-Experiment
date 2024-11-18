@@ -30,10 +30,11 @@ class ParticipantHelper():
 
         response = Response(responseCost, questionNumber)
         if (participant.validResponse(response) == False):
+            print("invalid response")
             return False
 
         participant.addResponse(response)
-
+        return True
 
         
     

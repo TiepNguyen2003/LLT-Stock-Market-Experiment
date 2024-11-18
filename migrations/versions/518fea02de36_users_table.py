@@ -1,8 +1,8 @@
-"""empty message
+"""users table
 
-Revision ID: 5d2c0eb92d04
+Revision ID: 518fea02de36
 Revises: 
-Create Date: 2024-11-14 16:48:21.616242
+Create Date: 2024-11-17 17:25:52.868726
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '5d2c0eb92d04'
+revision = '518fea02de36'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -21,16 +21,16 @@ def upgrade():
     op.create_table('participants',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('balance', sa.Integer(), nullable=False),
-    sa.Column('first_response_id', sa.Integer(), nullable=True),
-    sa.ForeignKeyConstraint(['first_response_id'], ['responses.id'], ),
+    sa.Column('responseCount', sa.Integer(), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('responses',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('questionNumber', sa.Integer(), nullable=False),
+    sa.Column('participant_id', sa.Integer(), nullable=False),
     sa.Column('cost', sa.Integer(), nullable=False),
-    sa.Column('participant_id', sa.Integer(), nullable=True),
-    sa.ForeignKeyConstraint(['participant_id'], ['participants.id'], ),
+    sa.Column('index', sa.Integer(), nullable=False),
+    sa.ForeignKeyConstraint(['participant_id'], ['participants.id'], name='fk_responses_participant_id'),
     sa.PrimaryKeyConstraint('id')
     )
     # ### end Alembic commands ###
