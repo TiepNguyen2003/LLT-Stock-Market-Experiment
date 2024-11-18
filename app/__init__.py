@@ -5,7 +5,7 @@ from settings.questionContent import QuestionContent
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 
-DEFAULT_BALANCE = 2400
+DEFAULT_BALANCE = Config.DEFAULT_BALANCE
 
 
 app = Flask(__name__)

@@ -5,7 +5,9 @@
 
 {% block content %}
   <p>{{ questionContent }}</p>
-  <p>{{ currentBalance}} </p>
+  {% if currentBalance is integer %}
+    <p>Balance = {{ currentBalance }}</p>
+  {% endif %}
   <form method=post>
       
       {{ form.csrf_token }}
