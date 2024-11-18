@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_wtf.csrf import CSRFProtect
-from config import Config
+from settings.config import Config
+from settings.questionContent import QuestionContent
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 

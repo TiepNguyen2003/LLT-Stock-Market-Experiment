@@ -5,6 +5,7 @@ from app.idForm import idForm
 from app.participantHelper import ParticipantHelper
 from app.signoutForm import SignoutForm
 from app.models import Response, Participant
+from settings.questionContent import QuestionContent
 
 
 '''@app.route('/index', methods=['GET', 'POST'])
@@ -64,8 +65,8 @@ def info():
     return render_template('info.html', form = form, Participant=participant)
 
 
-@app.route('/question1', methods=['GET', 'POST'])
-def question1():
+@app.route('/question/<int:question_id>', methods=['GET', 'POST'])
+def question(question_id):
 
     user_id = request.cookies.get('user_id')  # Get the user_id from cookies
     
@@ -74,34 +75,12 @@ def question1():
 
     form = QuestionForm(request.form)
     user = ParticipantHelper.getParticipant(user_id)
-
-    if request.method == 'POST' and form.validate():
-        formCost = form.answer.data
-        success = ParticipantHelper.addResponse(user_id, formCost, -1)
-
-        if (success):
-            return redirect(url_for('info'))
-        else:
-            print("Invalid response cost")
-        
-
-    return render_template('form.html', form=form, questionContent = "Put in your question response here for question 1", currentBalance = user.balance)
-
-
-
-@app.route('/question2', methods=['GET', 'POST'])
-def question2():
-
-    user_id = request.cookies.get('user_id')  # Get the user_id from cookies
+    print(question_id)
+    content = QuestionContent.getQuestion(question_id)
     
-    if user_id is None:
-        return redirect(url_for('idSignup'))
-
-    form = QuestionForm(request.form)
-    user = ParticipantHelper.getParticipant(user_id)
     if request.method == 'POST' and form.validate():
         formCost = form.answer.data
-        success = ParticipantHelper.addResponse(user_id, formCost, -2)
+        success = ParticipantHelper.addResponse(user_id, formCost, int(question_id))
 
         if (success):
             return redirect(url_for('info'))
@@ -109,6 +88,6 @@ def question2():
             print("Invalid response cost")
         
 
-    return render_template('form.html', form=form, questionContent = "Put in your question response here for question 2", currentBalance = user.balance )
+    return render_template('form.html', form=form, questionContent = content, currentBalance = user.balance )
 
 
