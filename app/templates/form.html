@@ -1,13 +1,18 @@
+{% extends "base.html" %}
+
 {% from "_formhelpers.html" import render_field %}
 
-<p>{{ questionContent }}</p>
-<p>{{ currentInvestment}} </p>
-<form method=post>
+
+{% block content %}
+  <p>{{ questionContent }}</p>
+  <p>{{ currentBalance}} </p>
+  <form method=post>
+      
+      {{ form.csrf_token }}
+    <dl>
+      {{ render_field(form.answer) }}
+      {{ form.submit()}}
+    </dl>
     
-    {{ form.csrf_token }}
-  <dl>
-    {{ render_field(form.answer) }}
-    {{ form.submit()}}
-  </dl>
-  
-</form>
+  </form>
+{% endblock %}

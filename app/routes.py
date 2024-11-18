@@ -65,7 +65,7 @@ def info():
 
 
 @app.route('/question1', methods=['GET', 'POST'])
-def question():
+def question1():
 
     user_id = request.cookies.get('user_id')  # Get the user_id from cookies
     
@@ -73,6 +73,8 @@ def question():
         return redirect(url_for('idSignup'))
 
     form = QuestionForm(request.form)
+    user = ParticipantHelper.getParticipant(user_id)
+
     if request.method == 'POST' and form.validate():
         formCost = form.answer.data
         success = ParticipantHelper.addResponse(user_id, formCost, -1)
@@ -83,12 +85,12 @@ def question():
             print("Invalid response cost")
         
 
-    return render_template('form.html', form=form, questionContent = "Put in your question response here for question 1")
+    return render_template('form.html', form=form, questionContent = "Put in your question response here for question 1", currentBalance = user.balance)
 
 
 
 @app.route('/question2', methods=['GET', 'POST'])
-def question():
+def question2():
 
     user_id = request.cookies.get('user_id')  # Get the user_id from cookies
     
@@ -96,6 +98,7 @@ def question():
         return redirect(url_for('idSignup'))
 
     form = QuestionForm(request.form)
+    user = ParticipantHelper.getParticipant(user_id)
     if request.method == 'POST' and form.validate():
         formCost = form.answer.data
         success = ParticipantHelper.addResponse(user_id, formCost, -2)
@@ -106,6 +109,6 @@ def question():
             print("Invalid response cost")
         
 
-    return render_template('form.html', form=form, questionContent = "Put in your question response here for question 2")
+    return render_template('form.html', form=form, questionContent = "Put in your question response here for question 2", currentBalance = user.balance )
 
 

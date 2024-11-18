@@ -1,11 +1,47 @@
 {% extends "base.html" %}
 
 {% block content %}
+    
+    <title>Helia's Questions</title>    
+    <div>
+        
+        Questions
+        <a href="/question1">Q1</a>
+        <a href="/question2">Q2</a>
+    </div>
+    <div>
+        "These are Helia's Questions!"
+    </div>
+    
     <body>
-        <p>This is the info page</p>
-        <h1>Hi, {{ Participant.id }}!</h1>
+        <h>This is the info page</p>
+        <p>Hi, {{ Participant.id }}!</h1>
         <p> Balance = {{ Participant.balance }}</p>
     </body>
+    
+
+    <div class="container mt-4">
+        <table class="table table-bordered table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Index</th>
+                    <th>Question Number</th>
+                    <th>Cost</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for response in Participant.responses %}
+                    <tr>
+                        <td>{{ response.index }}</td>
+                        <td>{{ response.questionNumber }}</td>
+                        <td>{{ response.cost }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
 
     <form method=post>
     

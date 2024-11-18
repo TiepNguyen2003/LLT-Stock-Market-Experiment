@@ -6,7 +6,7 @@ from sqlalchemy.orm import sessionmaker
 
 
 class QuestionForm(FlaskForm):
-    answer = IntegerField('Number', validators=[DataRequired(), validators.NumberRange(min=-2000, max=2000)])
+    answer = IntegerField('Number', validators=[DataRequired(), validators.NumberRange(min=-2000, max=5000)])
     submit = SubmitField('Submit')
 
     '''def __init__(self, question_text=None, *args, **kwargs):
