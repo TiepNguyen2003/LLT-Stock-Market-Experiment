@@ -59,6 +59,8 @@ class Response(db.Model):
     
     id: so.Mapped[int] = so.mapped_column(primary_key=True, autoincrement=True)
     questionNumber: so.Mapped[int] = so.mapped_column(unique=False) # question number as assigned by study
+    questionContent: so.Mapped[str] = so.mapped_column(unique=False) # content of the question
+
 
     participant_id: Mapped[int] = mapped_column(
         ForeignKey("participants.id", name="fk_responses_participant_id")
@@ -70,10 +72,11 @@ class Response(db.Model):
     cost: so.Mapped[int] = so.mapped_column(unique= False)
     index: so.Mapped[int] = so.mapped_column(unique = False) # the response order
 
-    def __init__(self, cost, questionNumber):
+    def __init__(self, cost, questionNumber, questionContent= "NONE"):
         
         self.cost = cost
         self.questionNumber = questionNumber
+        self.questionContent = questionContent
         
     def __repr__(self):
         return f'<Response {self.id}: {self.content}>'

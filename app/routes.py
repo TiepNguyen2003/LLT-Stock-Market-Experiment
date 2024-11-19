@@ -80,7 +80,7 @@ def question(question_id):
     
     if request.method == 'POST' and form.validate():
         formCost = form.answer.data
-        success = ParticipantHelper.addResponse(user_id, formCost, int(question_id))
+        success = ParticipantHelper.addResponse(user_id, formCost, int(question_id), content)
 
         if (success):
             return redirect(url_for('info'))
