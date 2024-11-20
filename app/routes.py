@@ -25,7 +25,7 @@ def idSignup():
         return redirect(url_for('question'))
     
     form = idForm(request.form)
-    resp = make_response(render_template('form.html', form=form, questionContent = "Put in your ID here"))
+    resp = make_response(render_template('form.html', form=form, signout = None, mode = None, trials = None, questionContent = "Put in your ID here"))
     
     if request.method == 'POST' and form.validate():
 
@@ -66,6 +66,18 @@ def info():
     return render_template('info.html', form = form, Participant=participant)
 '''
 
+@app.route('/complete', methods = ['GET', 'POST'])
+def complete():
+    form = SignoutForm(request.form)
+    if form.validate_on_submit():
+        resp = make_response(redirect(url_for('idSignup')))
+        resp.set_cookie('user_id', 'none', 0)
+        return resp
+
+    return render_template('complete.html', form = form, url = Config.SURVEY_LINK)
+
+
+
 @app.route('/question', methods=['GET', 'POST'])
 def question():
 
@@ -75,6 +87,7 @@ def question():
         return redirect(url_for('idSignup'))
 
     form = QuestionForm(request.form)
+    signoutForm = SignoutForm(request.form)
     user = ParticipantHelper.getParticipant(user_id)
     
     if (user is None):
@@ -91,10 +104,13 @@ def question():
         mode = "Experiment"
         balance = user.balance
         trials = Config.TOTAL_QUESTIONS - user.responseCount
-    print(trials)
+    #print(trials)
 
+
+    if (user.isPractice() is not True and trials <= 0):
+        return redirect(url_for('complete'))
     
-    if request.method == 'POST' and form.validate():
+    if form.validate_on_submit() and request.form['submit'] == "Submit":
         formCost = form.answer.data
         success = ParticipantHelper.addResponse(user_id, formCost)
 
@@ -103,9 +119,16 @@ def question():
         else:
             print("Invalid response cost")
         
+    if signoutForm.validate_on_submit() and request.form['submit'] == "Sign out":
+        resp = make_response(redirect(url_for('idSignup')))
+        resp.set_cookie('user_id', 'none', 0)
+        return resp
+        
+        
 
     return render_template('form.html', 
                            form=form, 
+                           signout=signoutForm,
                            mode=mode, 
                            questionContent = Config.QUESTION_PROMPT, 
                            currentBalance = balance,

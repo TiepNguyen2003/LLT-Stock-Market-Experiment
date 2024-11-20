@@ -4,14 +4,23 @@
 
 
 {% block content %}
-  <p>{{ questionContent }}</p>
+
+
+  <b>{{ questionContent }}</b>
+
+  {% if mode is not none%}
   <p> Mode: {{mode}}</p>
+  {% endif %}
+
+  {% if trials is not none%}
   <p> Remaining Questions: {{trials}}</p>
+  {% endif %}
+
   {% if currentBalance is integer %}
     <p>Balance = {{ currentBalance }}</p>
   {% endif %}
   <form method=post>
-      
+      {{ form.hidden_tag() }}
       {{ form.csrf_token }}
     <dl>
       {{ render_field(form.answer) }}
@@ -19,4 +28,18 @@
     </dl>
     
   </form>
+
+  {% if signout is not none%}
+  <form method=post>
+    {{ signout.hidden_tag() }}
+    {{ signout.csrf_token }}
+    <dl>
+      {{ signout.submit()}}
+    </dl>
+  
+  </form>
+  {% endif %}
+
+
+
 {% endblock %}

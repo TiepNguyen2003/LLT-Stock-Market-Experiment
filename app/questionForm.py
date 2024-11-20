@@ -1,6 +1,6 @@
 from flask import Flask, request, render_template, redirect, url_for, flash
 from flask_wtf import FlaskForm
-from wtforms import IntegerField, SubmitField, PasswordField, validators, Form
+from wtforms import IntegerField, SubmitField, PasswordField, validators, Form, HiddenField
 from wtforms.validators import DataRequired, Email
 from sqlalchemy.orm import sessionmaker
 
@@ -8,6 +8,8 @@ from sqlalchemy.orm import sessionmaker
 class QuestionForm(FlaskForm):
     answer = IntegerField('Number', validators=[validators.InputRequired("Please put in a number"), validators.NumberRange(min=-2000, max=5000)])
     submit = SubmitField('Submit')
+    hidden = HiddenField("Question")
+    
 
     '''def __init__(self, question_text=None, *args, **kwargs):
         super().__init__(*args, **kwargs)

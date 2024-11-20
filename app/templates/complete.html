@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<p> Congratulations on finishing the exam! Please go to this survey</p>
+<a href="{{ url }}"> Survey Here</a>
+
+<form method=post>
+    {{ form.hidden_tag() }}
+    {{ form.csrf_token }}
+    <dl>
+      {{ form.submit()}}
+    </dl>
+  
+</form>
+
+
+{% endblock %}
