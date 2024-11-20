@@ -28,6 +28,16 @@ The class Trial represents a trial. It has a unique audio peek, stimulus and a l
             - Contains information about the questions completed so far and missing questions, money they have etc
     - Database for answers
     
+# To do list
+
+- New website layout
+    Site goes to login, then a practice section, then a real section
+    Table changed to ID, Trial, Investment. Practice are written with practice
+    Practice section then real section goes in a loop
+- Easy installation
+- Scripts for database export
+    - Database is exported under trial as P, then 1,2, 3 where it represents being the 1st-2nd 3rd question etc
+    
 
 https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world
 

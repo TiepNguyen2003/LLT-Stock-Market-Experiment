@@ -13,21 +13,24 @@ from sqlalchemy.orm import relationship
 
 
 from app import db, DEFAULT_BALANCE
-
+from settings.config import Config
 
 class Participant(db.Model):
     __tablename__ = 'participants'
 
     id: so.Mapped[int] = so.mapped_column(primary_key=True)
     balance: so.Mapped[int] = so.mapped_column(unique = False)
+    practiceBalance: so.Mapped[int] = so.mapped_column(unique= False)
     responseCount: so.Mapped[int] = so.mapped_column(unique = False)
-
+    practiceResponseCount: so.Mapped[int] = so.mapped_column(unique = False)
     
     responses: so.Mapped[List["Response"]] = so.relationship("Response", back_populates="participant")
 
-    def __init__(self, id = None, balance = DEFAULT_BALANCE):
+    def __init__(self, id = None, balance = DEFAULT_BALANCE, practiceBalance = Config.PRACTICE_BALANCE):
         self.id = id
         self.balance = balance
+        self.practiceBalance = practiceBalance
+        self.practiceResponseCount = 0
         self.responseCount = 0
     def __repr__(self):
         return '<User {}>'.format(self.id)
@@ -36,11 +39,18 @@ class Participant(db.Model):
         if (self.validResponse(response) is False):
             raise ValueError("Cost is not valid")
           
-        self.responseCount = self.responseCount + 1
-        self.responses.append(response)
-        self.balance = self.balance - response.cost
+        if (self.isPractice()):
+            self.practiceResponseCount = self.practiceResponseCount + 1
+            self.responses.append(response)
+            self.practiceBalance = self.practiceBalance - response.cost
 
-        response.index = self.responseCount
+            response.trial = "P" + str(self.practiceResponseCount)
+        else:
+            self.responseCount = self.responseCount + 1
+            self.responses.append(response)
+            self.balance = self.balance - response.cost
+
+            response.trial = str(self.responseCount)
 
 
         db.session.commit()
@@ -49,18 +59,27 @@ class Participant(db.Model):
         Checks if a response is able to be added to this object
     '''
     def validResponse(self, response : 'Response'):    
-        if (self.balance >= response.cost):
+        compVal = -1
+        if (self.isPractice() is True):
+            compVal = self.practiceBalance
+        else:
+            compVal = self.balance
+
+        if (compVal >= response.cost):
             return True
         else:
             return False
+        
+    def isPractice(self):
+        if (self.practiceResponseCount >= Config.PRACTICE_QUESTIONS):
+            return False
+        else:
+            return True
 
 class Response(db.Model):
     __tablename__ = 'responses'
     
     id: so.Mapped[int] = so.mapped_column(primary_key=True, autoincrement=True)
-    questionNumber: so.Mapped[int] = so.mapped_column(unique=False) # question number as assigned by study
-    questionContent: so.Mapped[str] = so.mapped_column(unique=False) # content of the question
-
 
     participant_id: Mapped[int] = mapped_column(
         ForeignKey("participants.id", name="fk_responses_participant_id")
@@ -70,13 +89,11 @@ class Response(db.Model):
     
     # Cost is a positive value that represents how much the participant pent in this response.
     cost: so.Mapped[int] = so.mapped_column(unique= False)
-    index: so.Mapped[int] = so.mapped_column(unique = False) # the response order
+    trial: so.Mapped[str] = so.mapped_column(unique=False)  # the response order
 
-    def __init__(self, cost, questionNumber, questionContent= "NONE"):
+    def __init__(self, cost):
         
         self.cost = cost
-        self.questionNumber = questionNumber
-        self.questionContent = questionContent
         
     def __repr__(self):
-        return f'<Response {self.id}: {self.content}>'
+        return f'<Response {self.id}>'

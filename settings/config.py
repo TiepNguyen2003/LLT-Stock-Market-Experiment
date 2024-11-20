@@ -8,3 +8,7 @@ class Config:
         'sqlite:///' + os.path.join(basedir, 'app.db')
     DEBUG = True
     DEFAULT_BALANCE = 2400
+    PRACTICE_BALANCE = 1000
+    PRACTICE_QUESTIONS = 1 # Number of practice questions
+    TOTAL_QUESTIONS = 24 # Total questions is the number of non practice questions
+    QUESTION_PROMPT = "How much would you invest in this company?"

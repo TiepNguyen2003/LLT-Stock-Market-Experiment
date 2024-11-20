@@ -1,4 +1,4 @@
-from flask import render_template, request, flash, make_response, redirect, url_for
+from flask import render_template, request, flash, make_response, redirect, url_for, abort
 from app import app, db
 from app.questionForm import QuestionForm
 from app.idForm import idForm
@@ -6,6 +6,7 @@ from app.participantHelper import ParticipantHelper
 from app.signoutForm import SignoutForm
 from app.models import Response, Participant
 from settings.questionContent import QuestionContent
+from settings.config import Config
 
 
 '''@app.route('/index', methods=['GET', 'POST'])
@@ -21,14 +22,14 @@ def idSignup():
 
     user_id = request.cookies.get('user_id')  # Get the user_id from cookies
     if user_id is not None:  # If the cookie is not set, handle the case (e.g., redirect or show an error)
-        return redirect(url_for('info'))
+        return redirect(url_for('question'))
     
     form = idForm(request.form)
     resp = make_response(render_template('form.html', form=form, questionContent = "Put in your ID here"))
     
     if request.method == 'POST' and form.validate():
 
-        resp = make_response(redirect(url_for('info')))
+        resp = make_response(redirect(url_for('question')))
         user_id = form.answer.data
         
         if (ParticipantHelper.getParticipant(user_id) is None):
@@ -43,7 +44,7 @@ def idSignup():
         print(form.errors)
 
     return resp
-
+'''
 @app.route('/info', methods=["GET", "POST"])
 def info():
 
@@ -63,10 +64,10 @@ def info():
     
 
     return render_template('info.html', form = form, Participant=participant)
+'''
 
-
-@app.route('/question/<int:question_id>', methods=['GET', 'POST'])
-def question(question_id):
+@app.route('/question', methods=['GET', 'POST'])
+def question():
 
     user_id = request.cookies.get('user_id')  # Get the user_id from cookies
     
@@ -75,19 +76,39 @@ def question(question_id):
 
     form = QuestionForm(request.form)
     user = ParticipantHelper.getParticipant(user_id)
-    print(question_id)
-    content = QuestionContent.getQuestion(question_id)
+    
+    if (user is None):
+        abort(404)
+
+    mode = "None"
+    balance = -1
+    trials = -1
+    if (user.isPractice()):
+        mode = "Practice"
+        balance = user.practiceBalance
+        trials = Config.PRACTICE_QUESTIONS - user.practiceResponseCount
+    else:
+        mode = "Experiment"
+        balance = user.balance
+        trials = Config.TOTAL_QUESTIONS - user.responseCount
+    print(trials)
+
     
     if request.method == 'POST' and form.validate():
         formCost = form.answer.data
-        success = ParticipantHelper.addResponse(user_id, formCost, int(question_id), content)
+        success = ParticipantHelper.addResponse(user_id, formCost)
 
         if (success):
-            return redirect(url_for('info'))
+            return redirect(url_for('question'))
         else:
             print("Invalid response cost")
         
 
-    return render_template('form.html', form=form, questionContent = content, currentBalance = user.balance )
+    return render_template('form.html', 
+                           form=form, 
+                           mode=mode, 
+                           questionContent = Config.QUESTION_PROMPT, 
+                           currentBalance = balance,
+                           trials = trials)
 
 

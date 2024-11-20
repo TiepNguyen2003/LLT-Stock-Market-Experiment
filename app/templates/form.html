@@ -5,6 +5,8 @@
 
 {% block content %}
   <p>{{ questionContent }}</p>
+  <p> Mode: {{mode}}</p>
+  <p> Remaining Questions: {{trials}}</p>
   {% if currentBalance is integer %}
     <p>Balance = {{ currentBalance }}</p>
   {% endif %}
