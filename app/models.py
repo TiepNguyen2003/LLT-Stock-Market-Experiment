@@ -79,7 +79,7 @@ class Participant(db.Model):
 class Response(db.Model):
     __tablename__ = 'responses'
     
-    id: so.Mapped[int] = so.mapped_column(primary_key=True, autoincrement=True)
+    response_id: so.Mapped[int] = so.mapped_column(primary_key=True, autoincrement=True)
 
     participant_id: Mapped[int] = mapped_column(
         ForeignKey("participants.id", name="fk_responses_participant_id")
