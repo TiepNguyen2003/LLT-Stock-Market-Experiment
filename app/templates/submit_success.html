@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+<script>
+    
+    var csrf_token = "{{ csrf_token() }}"
+    // Function to switch the page
+    function switchPage() {
+        console.log("Page lost focus");
+        // Make a POST request to the server
+        fetch('/submit_success', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrf_token // Include CSRF token
+            },
+            body: JSON.stringify({ message: "Page lost focus" }),
+        })
+
+        .then(response => {
+            if (response.redirected) {
+                // If the response contains a redirect, navigate to the new location
+                window.location.href = response.url;
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    }
+
+    // Set a timeout to switch the page after a specific time (e.g., 10 seconds)
+    let timeoutId = setTimeout(() => {
+        console.log("Switching after timeout...");
+        switchPage();
+    }, 60000); // 60000 ms = 60 seconds
+
+    // Add an event listener for when the tab loses focus
+    window.onblur = () => {
+        console.log("Tab lost focus, switching...");
+        clearTimeout(timeoutId)
+        switchPage();
+    };
+</script>
+
+<body>
+    <p>Your response has been recorded. Please switch tabs using FN + F10</p>
+</body>
+
+
+{% endblock %}

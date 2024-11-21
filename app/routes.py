@@ -68,15 +68,31 @@ def info():
 
 @app.route('/complete', methods = ['GET', 'POST'])
 def complete():
-    form = SignoutForm(request.form)
+    form = SignoutForm(request.form) # form is the signout button
     if form.validate_on_submit():
-        resp = make_response(redirect(url_for('idSignup')))
-        resp.set_cookie('user_id', 'none', 0)
-        return resp
+        return _signout()
 
     return render_template('complete.html', form = form, url = Config.SURVEY_LINK)
 
+@app.route('/submit_success', methods=['GET','POST'])
+def submit_success():
 
+    #data = request.json
+    print(request.form)
+
+    if (request.method == 'POST'):
+        print("Switching screen")
+        return redirect(url_for('question')) 
+    else:
+        return render_template('submit_success.html')
+    
+
+
+def _signout():
+    resp = make_response(redirect(url_for('idSignup')))
+    resp.set_cookie('user_id', 'none', 0)
+    return resp
+        
 
 @app.route('/question', methods=['GET', 'POST'])
 def question():
@@ -91,7 +107,7 @@ def question():
     user = ParticipantHelper.getParticipant(user_id)
     
     if (user is None):
-        abort(404)
+        return _signout()
 
     mode = "None"
     balance = -1
@@ -115,14 +131,13 @@ def question():
         success = ParticipantHelper.addResponse(user_id, formCost)
 
         if (success):
-            return redirect(url_for('question'))
+            print("Switching to submit success")
+            return redirect(url_for('submit_success'))
         else:
             print("Invalid response cost")
         
     if signoutForm.validate_on_submit() and request.form['submit'] == "Sign out":
-        resp = make_response(redirect(url_for('idSignup')))
-        resp.set_cookie('user_id', 'none', 0)
-        return resp
+        return _signout()
         
         
 
