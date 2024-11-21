@@ -44,27 +44,6 @@ def idSignup():
         print(form.errors)
 
     return resp
-'''
-@app.route('/info', methods=["GET", "POST"])
-def info():
-
-    form = SignoutForm(request.form)
-    user_id = request.cookies.get('user_id')  # Get the user_id from cookies
-    
-
-    if user_id is None:  # If the cookie is not set, handle the case (e.g., redirect or show an error)
-        return redirect(url_for('idSignup'))
-    
-    if request.method == 'POST' and form.validate():
-        resp = make_response(redirect(url_for('idSignup')))
-        resp.set_cookie('user_id', '', expires=0)
-        return resp
-
-    participant = ParticipantHelper.getParticipant(user_id)
-    
-
-    return render_template('info.html', form = form, Participant=participant)
-'''
 
 @app.route('/complete', methods = ['GET', 'POST'])
 def complete():
@@ -87,7 +66,9 @@ def submit_success():
         return render_template('submit_success.html')
     
 
-
+'''
+Switches to the signin page
+'''
 def _signout():
     resp = make_response(redirect(url_for('idSignup')))
     resp.set_cookie('user_id', 'none', 0)
