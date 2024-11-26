@@ -2,17 +2,20 @@
 
 {% block content %}
 
-<p> Please go to the link below to answer the post task questions</p>
-<a href="{{ url }}"> Survey Here</a>
 
-<form method=post>
-    {{ form.hidden_tag() }}
-    {{ form.csrf_token }}
-    <dl>
-      {{ form.submit()}}
-    </dl>
-  
-</form>
+<div>
+  <p class = "text-center"> Congratulations on finishing the task! Press the button below to go to the next survey</p>
+  <a href="{{url}}" class="btn btn-primary text-center" role="button">Please click here to go to the next survey</a>
+</div>
+
+  <form method=post>
+      {{ form.hidden_tag() }}
+      {{ form.csrf_token }}
+      <dl>
+        {{ form.submit()}}
+      </dl>
+    
+  </form>
 
 
 {% endblock %}
