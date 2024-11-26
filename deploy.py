@@ -2,6 +2,7 @@ import socket
 import psutil
 from app import app
 from wsgiref.simple_server import make_server
+from waitress import serve
 
 def get_wifi_ip():
     # Get all network interfaces and their addresses
@@ -25,6 +26,5 @@ if __name__ == '__main__':
     port = 8080
 
     # Bind to 0.0.0.0 to listen on all network interfaces (if needed)
-    with make_server('0.0.0.0', port, app) as httpd:
-        print(f"Serving Flask app on http://{wifi_ip if wifi_ip else 'localhost'}:{port}")
-        httpd.serve_forever()
+    serve(app, host=wifi_ip, port=8080)
+
