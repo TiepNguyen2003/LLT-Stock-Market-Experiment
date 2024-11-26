@@ -6,7 +6,7 @@ from sqlalchemy.orm import sessionmaker
 
 
 class QuestionForm(FlaskForm):
-    answer = IntegerField('Number', validators=[validators.InputRequired("Please put in a number"), validators.NumberRange(min=-2000, max=5000)])
+    answer = IntegerField('Number', validators=[validators.InputRequired("Please put in a number"), validators.NumberRange(min=0, max=5000)])
     submit = SubmitField('Submit')
     hidden = HiddenField("Question")
     

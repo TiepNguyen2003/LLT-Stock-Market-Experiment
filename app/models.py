@@ -42,13 +42,13 @@ class Participant(db.Model):
         if (self.isPractice()):
             self.practiceResponseCount = self.practiceResponseCount + 1
             self.responses.append(response)
-            self.practiceBalance = self.practiceBalance - response.cost
+            self.practiceBalance = self.practiceBalance - response.investment
 
             response.trial = "P" + str(self.practiceResponseCount)
         else:
             self.responseCount = self.responseCount + 1
             self.responses.append(response)
-            self.balance = self.balance - response.cost
+            self.balance = self.balance - response.investment
 
             response.trial = str(self.responseCount)
 
@@ -65,7 +65,7 @@ class Participant(db.Model):
         else:
             compVal = self.balance
 
-        if (compVal >= response.cost):
+        if (compVal >= response.investment):
             return True
         else:
             return False
@@ -87,13 +87,13 @@ class Response(db.Model):
     participant: so.Mapped["Participant"] = so.relationship("Participant", back_populates="responses")
 
     
-    # Cost is a positive value that represents how much the participant pent in this response.
-    cost: so.Mapped[int] = so.mapped_column(unique= False)
+    # investment is a positive value that represents how much the participant spent in this response.
+    investment: so.Mapped[int] = so.mapped_column(unique= False)
     trial: so.Mapped[str] = so.mapped_column(unique=False)  # the response order
 
-    def __init__(self, cost):
+    def __init__(self, investment):
         
-        self.cost = cost
+        self.investment = investment
         
     def __repr__(self):
         return f'<Response {self.id}>'

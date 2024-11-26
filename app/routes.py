@@ -29,7 +29,7 @@ def idSignup():
     
     if request.method == 'POST' and form.validate():
 
-        resp = make_response(redirect(url_for('question')))
+        resp = make_response(redirect(url_for('submit_success')))
         user_id = form.answer.data
         
         if (ParticipantHelper.getParticipant(user_id) is None):
