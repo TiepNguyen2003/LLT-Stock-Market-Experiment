@@ -21,7 +21,7 @@ if __name__ == '__main__':
     if wifi_ip:
         print(f"Starting server on Wi-Fi IP: http://{wifi_ip}:8080")
     else:
-        print("Wi-Fi interface not found. Defaulting to local IP.")
+        print("Wi-Fi interface not found. Please connect to the internet.")
 
     port = 8080
 
