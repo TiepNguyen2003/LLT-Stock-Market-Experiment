@@ -25,6 +25,6 @@ if __name__ == '__main__':
 
     port = 8080
 
-    # Bind to 0.0.0.0 to listen on all network interfaces (if needed)
+    # Binds to the Wifi IP
     serve(app, host=wifi_ip, port=8080)
 
