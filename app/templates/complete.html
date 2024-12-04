@@ -2,20 +2,29 @@
 
 {% block content %}
 
+<body>
+  <div class="container h-100">
+    <div class="row h-100 justify-content-center align-items-center">
+      <form class="col-12">
+        <div>
+          <h4 class = "text-center"> Congratulations on finishing the task! Press the button below to go to the next survey</h4>
+        </div>
+        <div class="col text-center">
+          <a href="{{url}}" class="btn btn-primary text-center btn-lg" role="button">Please click here to go to the next survey</a>
+        </div>
+      </form>   
+    </div>
+  </div>
 
-<div>
-  <p class = "text-center"> Congratulations on finishing the task! Press the button below to go to the next survey</p>
-  <a href="{{url}}" class="btn btn-primary text-center" role="button">Please click here to go to the next survey</a>
-</div>
-
-  <form method=post>
-      {{ form.hidden_tag() }}
-      {{ form.csrf_token }}
-      <dl>
-        {{ form.submit()}}
-      </dl>
-    
-  </form>
-
+  <div>
+    <form method="post">
+        {{ form.hidden_tag() }}
+        {{ form.csrf_token }}
+        <dl>
+          <button type="submit" class="btn btn-primary">{{ form.submit.label.text }}</button>
+        </dl>
+    </form>
+  </div>
+</body>
 
 {% endblock %}

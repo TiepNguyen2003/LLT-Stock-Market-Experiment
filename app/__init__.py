@@ -5,6 +5,8 @@ from settings.questionContent import QuestionContent
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from waitress import serve
+from flask_bootstrap import Bootstrap
+
 
 DEFAULT_BALANCE = Config.DEFAULT_BALANCE
 
@@ -13,6 +15,7 @@ app = Flask(__name__)
 
 
 app.config.from_object(Config)
+Bootstrap(app)
 
 csrf = CSRFProtect()
 csrf.init_app(app)
