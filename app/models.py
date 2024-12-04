@@ -2,6 +2,7 @@ from typing import Optional, List
 import sqlalchemy as sa
 import sqlalchemy.orm as so
 import json
+import pytz
 
 from sqlalchemy import ForeignKey
 from sqlalchemy import Integer
@@ -9,6 +10,7 @@ from sqlalchemy.orm import Mapped
 from sqlalchemy.orm import mapped_column
 from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy.orm import relationship
+from datetime import datetime
 
 
 
@@ -80,6 +82,8 @@ class Response(db.Model):
     __tablename__ = 'responses'
     
     response_id: so.Mapped[int] = so.mapped_column(primary_key=True, autoincrement=True)
+    response_time: Mapped[datetime] = mapped_column(default=datetime.now(pytz.timezone('America/Los_Angeles'))) # column represents the time created
+
 
     participant_id: Mapped[int] = mapped_column(
         ForeignKey("participants.id", name="fk_responses_participant_id")

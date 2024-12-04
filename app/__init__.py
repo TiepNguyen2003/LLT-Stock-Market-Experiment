@@ -10,6 +10,8 @@ DEFAULT_BALANCE = Config.DEFAULT_BALANCE
 
 
 app = Flask(__name__)
+
+
 app.config.from_object(Config)
 
 csrf = CSRFProtect()

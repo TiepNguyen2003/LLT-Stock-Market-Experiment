@@ -25,7 +25,7 @@ def idSignup():
         return redirect(url_for('question'))
     
     form = idForm(request.form)
-    resp = make_response(render_template('form.html', form=form, signout = None, mode = None, trials = None, questionContent = "Put in your ID here"))
+    resp = make_response(render_template('signin.html', form=form, questionContent = "Put in your ID here"))
     
     if request.method == 'POST' and form.validate():
 
