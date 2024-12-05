@@ -6,13 +6,19 @@
 {% block content %}
 
 <div class = "container">
-    <h1 class = "container-text">{{ questionContent }}</h1>
+    <div class = "container-text">
+        <h1>{{ questionContent }}</h1>
+        <p> Welcome to Helia's experiment. I need for somebody to tell me stuff to put in here because I want to put a basic description
+            of the tasks needed to be done in this experiment like instructions labels or whatever.
+        </p>
+    </div>
+    
 
     <form method=post class = "container-form">
         {{ form.hidden_tag() }}
         {{ form.csrf_token }}
         
-        {{ render_field(form.answer) }}
+        {{ render_field(form.answer, render_label = False) }}
         {{ form.submit()}}
         
     </form>
