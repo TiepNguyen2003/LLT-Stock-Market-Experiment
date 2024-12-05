@@ -39,8 +39,11 @@ body {
 }
 
 .container-text h1 {
-    font-size: 35px;
+    font-size: 45px;
     font-weight: bold;
+}
+.container-text p {
+    font-size: 28px;
 }
 
 .text-align-centered {
