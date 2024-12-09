@@ -82,7 +82,9 @@ class Response(db.Model):
     __tablename__ = 'responses'
     
     response_id: so.Mapped[int] = so.mapped_column(primary_key=True, autoincrement=True)
-    response_time: Mapped[datetime] = mapped_column(default=datetime.now(pytz.timezone('America/Los_Angeles'))) # column represents the time created
+    response_time: Mapped[datetime] = mapped_column(
+        default=lambda: datetime.now(pytz.timezone('America/Los_Angeles'))
+    )
 
 
     participant_id: Mapped[int] = mapped_column(

@@ -7,7 +7,7 @@
     <div class = "container-text text-center-horizontal">
       <h1> Congratulations on finishing the task!</h1>
       <h1> Press the link below to go to the next survey</h1>
-      <a href="{{url}}" class="btn btn-primary text-center btn-lg" role="button">Please click here to go to the next survey</a>
+      <a href="{{url}}" class="btn btn-primary text-center btn-lg" target="_blank" role="button">Please click here to go to the next survey</a>
       <form method=post class = "signout-button">
         {{ form.hidden_tag() }}
         {{ form.csrf_token }}
