@@ -1,2 +1,7 @@
 id,balance,practiceBalance,responseCount,practiceResponseCount
-900,0,0,24,1
+900,200,500,24,1
+901,2400,1000,0,0
+902,570,500,6,1
+903,2100,500,1,1
+905,2400,1000,0,0
+1000,2400,1000,0,0

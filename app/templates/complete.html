@@ -2,20 +2,24 @@
 
 {% block content %}
 
-
-<div>
-  <p class = "text-center"> Congratulations on finishing the task! Press the button below to go to the next survey</p>
-  <a href="{{url}}" class="btn btn-primary text-center" role="button">Please click here to go to the next survey</a>
-</div>
-
-  <form method=post>
-      {{ form.hidden_tag() }}
-      {{ form.csrf_token }}
-      <dl>
-        {{ form.submit()}}
-      </dl>
+<body>
+  <div class="container">
+    <div class = "container-text text-center-horizontal">
+      <h1> Congratulations on finishing the task!</h1>
+      <h1> Press the link below to go to the next survey</h1>
+      <a href="{{url}}" class="btn btn-primary text-center btn-lg" target="_blank" role="button">Please click here to go to the next survey</a>
+      <form method=post class = "signout-button">
+        {{ form.hidden_tag() }}
+        {{ form.csrf_token }}
+        <dl>
+          {{ form.submit()}}
+        </dl>
     
-  </form>
+      </form>
+    </div>
+  </div>
 
+  
+</body>
 
 {% endblock %}

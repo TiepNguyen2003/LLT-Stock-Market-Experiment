@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% from "_formhelpers.html" import render_field %}
+
+
+{% block content %}
+
+<div class = "container">
+    <div class = "container-text">
+        <h1>{{ questionContent }}</h1>
+    </div>
+    
+
+    <form method=post class = "container-form">
+        {{ form.hidden_tag() }}
+        {{ form.csrf_token }}
+        
+        {{ render_field(form.answer, render_label = False) }}
+        {{ form.submit()}}
+        
+    </form>
+</div>
+
+
+
+
+{% endblock %}

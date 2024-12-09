@@ -1,0 +1,118 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+
+    background-color: #f4f4f9;
+    
+}
+ 
+
+.container {
+    background-color: #fff;
+    border-radius: 1vw;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /* Controls size of the container*/
+    /*
+    padding-left:25vw;
+    padding-right: 25vw;
+    padding-top: 25vh;
+    padding-bottom: 25vh;
+    */
+    /*
+    margin-left:25vw;
+    margin-right: 25vw;
+    margin-top: 25vh;
+    margin-bottom: 25vh;
+    */
+    
+    width: 70vw;
+    height:70vh;
+    position: fixed;
+        
+    left: 15%;
+    bottom: 17%;
+}
+.container-text h1, .container-text p {
+    padding-left: 3vw;
+    padding-right: 3vw;
+}
+
+.container-text h1 {
+    font-size: 45px;
+    font-weight: bold;
+}
+.container-text p, a {
+    font-size: 28px;
+}
+
+.text-align-centered {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.text-center-horizontal {
+    text-align: center;
+}
+
+
+/* Form for container layout*/
+.container-form{
+    /* prevents default button margins from affecting sizes*/
+    margin: 0;
+    padding: 0;
+    border: none;
+    font: inherit;
+    box-sizing: border-box;
+
+    display:flex;
+    flex-direction: row;
+    width: 100%;
+    height:4vh;
+    align-items: center;
+
+    position: absolute;
+    bottom:7.5vh;
+    font-size: 28px;    
+}
+
+.container-form dd {
+    margin: 0;
+    padding: 0;
+    display: block;
+    
+    font-size: inherit;
+}
+
+.container-form input[type=number] {
+    box-sizing: inherit;
+    width: 45vw;
+    height:6vh;
+    margin-left: 3vw;
+    font-size: inherit;
+}
+
+.container-form input[type=submit] {
+    box-sizing: border-box;
+    width: 10vw;
+    height:6.8vh; /*we use 6.8 because for whatever reason css isn't happy with the way boxes are styled*/
+    margin-left: auto;
+    margin-right: 3vw;
+    font-size: inherit;
+}
+
+.signout-button input[type=submit]{
+    position: fixed;
+    font:inherit;   
+
+    left: 2%;
+    top: 2%;
+
+    width: 10vw;
+    height:6.8vh;
+    box-sizing: border-box;
+    font-size: 28px;
+
+}
