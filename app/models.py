@@ -82,10 +82,6 @@ class Response(db.Model):
     __tablename__ = 'responses'
     
     response_id: so.Mapped[int] = so.mapped_column(primary_key=True, autoincrement=True)
-    response_time: Mapped[datetime] = mapped_column(
-        default=lambda: datetime.now(pytz.timezone('America/Los_Angeles'))
-    )
-
 
     participant_id: Mapped[int] = mapped_column(
         ForeignKey("participants.id", name="fk_responses_participant_id")
@@ -97,6 +93,9 @@ class Response(db.Model):
     investment: so.Mapped[int] = so.mapped_column(unique= False)
     trial: so.Mapped[str] = so.mapped_column(unique=False)  # the response order
 
+    response_time: Mapped[datetime] = mapped_column(
+        default=lambda: datetime.now(pytz.timezone('America/Los_Angeles'))
+    )
     def __init__(self, investment):
         
         self.investment = investment
