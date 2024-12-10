@@ -37,7 +37,7 @@ def idSignup():
             ParticipantHelper.addParticipant(user_id)
         
         resp.set_cookie('user_id', str(user_id), max_age=60*60*3)  # expires after 3 hours
-        
+        print("Logging in " + user_id)
         return resp
     else:
         #print("Hello world")
@@ -57,7 +57,6 @@ def complete():
 def submit_success():
 
     #data = request.json
-    print(request.form)
 
     if (request.method == 'POST'):
         print("Switching screen")
@@ -111,7 +110,7 @@ def question():
         formCost = form.answer.data
         success = ParticipantHelper.addResponse(user_id, formCost)
 
-        if (success):
+        if (success):   
             print("Switching to submit success")
             return redirect(url_for('submit_success'))
         else:
