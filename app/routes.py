@@ -5,8 +5,8 @@ from app.idForm import idForm
 from app.participantHelper import ParticipantHelper
 from app.signoutForm import SignoutForm
 from app.models import Response, Participant
-from settings.questionContent import QuestionContent
-from settings.config import Config
+from app.questionContent import QuestionContent
+from app.config import Config
 
 
 '''@app.route('/index', methods=['GET', 'POST'])

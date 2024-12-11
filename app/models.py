@@ -15,7 +15,7 @@ from datetime import datetime
 
 
 from app import db, DEFAULT_BALANCE
-from settings.config import Config
+from app.config import Config
 
 class Participant(db.Model):
     __tablename__ = 'participants'
