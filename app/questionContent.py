@@ -5,6 +5,9 @@ class QuestionContent:
     _questions = {}
     _csv_file = os.path.join(os.path.dirname(__file__), 'questions.csv')  # Path relative to this class file
     
+    '''
+    Deprecated, finds questions and returns them
+    '''
     @classmethod
     def getQuestion(cls,id):
 
