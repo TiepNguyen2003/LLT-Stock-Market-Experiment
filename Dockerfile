@@ -23,10 +23,12 @@ RUN pip install -r requirements.txt
 
 
 COPY app app
-COPY migrations migrations
 COPY appserver.py config.py boot.sh ./
 RUN chmod a+x boot.sh
 
+RUN flask db init
+RUN flask db migrate -m "First Migration"
+RUN flask db upgrade
 
 
 # Creates a non-root user with an explicit UID and adds permission to access the /app folder
