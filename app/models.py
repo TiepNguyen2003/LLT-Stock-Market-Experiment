@@ -15,7 +15,7 @@ from datetime import datetime
 
 
 from app import db, DEFAULT_BALANCE
-from app.config import Config
+from config import Config
 
 class Participant(db.Model):
     __tablename__ = 'participants'
@@ -95,7 +95,7 @@ class Response(db.Model):
     
     # investment is a positive value that represents how much the participant spent in this response.
     investment: so.Mapped[int] = so.mapped_column(unique= False)
-    trial: so.Mapped[str] = so.mapped_column(unique=False)  # the response order
+    trial: so.Mapped[str] = so.mapped_column(sa.String(255), unique=False)  # the response order
 
     def __init__(self, investment):
         

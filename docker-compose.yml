@@ -12,9 +12,8 @@ services:
     depends_on:
       - db
     environment:
-      - DATABASE_URL=mysql://mysql:password@db/myapp
+      - DATABASE_URL=mysql+pymysql://Tiep:tiep123@helia_database:3306/helia_database
     volumes: []
-    command: waitress-serve --call app:create_app
 
 
   db:
@@ -27,7 +26,7 @@ services:
       MYSQL_USER: Tiep
       MYSQL_PASSWORD: tiep123
     volumes:
-      - mysql_data:/var/lib/mysql
+      - C:/Users/Trieu/OneDrive/Documents/Programming/Helia's Project API/db:/var/lib/mysql
 
 volumes:
   mysql_data:

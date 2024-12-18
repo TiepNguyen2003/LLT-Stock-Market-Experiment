@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_wtf.csrf import CSRFProtect
-from app.config import Config
+from config import Config
 
 from app.questionContent import QuestionContent
 from flask_sqlalchemy import SQLAlchemy

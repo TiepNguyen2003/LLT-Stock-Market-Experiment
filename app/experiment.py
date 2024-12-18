@@ -3,7 +3,7 @@ from app.questionForm import QuestionForm
 from app.idForm import idForm
 from app.participantHelper import ParticipantHelper
 from app.signoutForm import SignoutForm
-from app.config import Config
+from config import Config
 
 experiment = Blueprint('experiment', __name__, template_folder='templates')
 
