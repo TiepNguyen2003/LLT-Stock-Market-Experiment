@@ -8,4 +8,4 @@ while true; do
     echo Deploy command failed, retrying in 5 secs...
     sleep 5
 done
-exec waitress-serve --call app:create_app
+exec waitress-serve --host 127.0.0.1 --call app:create_app  
