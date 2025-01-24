@@ -1,35 +1,25 @@
-from flask import render_template, request, flash, make_response, redirect, url_for, abort
-from app import app, db
+from flask import Blueprint, render_template, request, flash, make_response, redirect, url_for, abort
 from app.questionForm import QuestionForm
 from app.idForm import idForm
 from app.participantHelper import ParticipantHelper
 from app.signoutForm import SignoutForm
-from app.models import Response, Participant
-from settings.questionContent import QuestionContent
-from settings.config import Config
+from config import Config
 
+experiment = Blueprint('experiment', __name__, template_folder='templates')
 
-'''@app.route('/index', methods=['GET', 'POST'])
-def index():
-    form = QuestionForm()
-    if request.method == 'POST' and form.validate():
-        print("Received answer")
-    return render_template('form.html', form=form)'''
-
-
-@app.route('/', methods=['GET', 'POST'])
+@experiment.route('/', methods=['GET', 'POST'])
 def idSignup():
 
     user_id = request.cookies.get('user_id')  # Get the user_id from cookies
     if user_id is not None:  # If the cookie is not set, handle the case (e.g., redirect or show an error)
-        return redirect(url_for('question'))
+        return redirect(url_for('experiment.question'))
     
     form = idForm(request.form)
     resp = make_response(render_template('signin.html', form=form, questionContent = "Put in your user ID here"))
     
     if request.method == 'POST' and form.validate():
 
-        resp = make_response(redirect(url_for('submit_success')))
+        resp = make_response(redirect(url_for('experiment.submit_success')))
         user_id = form.answer.data
         
         if (ParticipantHelper.getParticipant(user_id) is None):
@@ -45,7 +35,7 @@ def idSignup():
 
     return resp
 
-@app.route('/complete', methods = ['GET', 'POST'])
+@experiment.route('/complete', methods = ['GET', 'POST'])
 def complete():
     form = SignoutForm(request.form) # form is the signout button
     if form.validate_on_submit():
@@ -53,7 +43,7 @@ def complete():
 
     return render_template('complete.html', form = form, url = Config.SURVEY_LINK)
 
-@app.route('/submit_success', methods=['GET','POST'])
+@experiment.route('/submit_success', methods=['GET','POST'])
 def submit_success():
 
     #data = request.json
@@ -61,7 +51,7 @@ def submit_success():
 
     if (request.method == 'POST'):
         print("Switching screen")
-        return redirect(url_for('question')) 
+        return redirect(url_for('experiment.question')) 
     else:
         return render_template('submit_success.html')
     
@@ -70,18 +60,18 @@ def submit_success():
 Switches to the signin page
 '''
 def _signout():
-    resp = make_response(redirect(url_for('idSignup')))
+    resp = make_response(redirect(url_for('experiment.idSignup')))
     resp.set_cookie('user_id', 'none', 0)
     return resp
         
 
-@app.route('/question', methods=['GET', 'POST'])
+@experiment.route('/question', methods=['GET', 'POST'])
 def question():
 
     user_id = request.cookies.get('user_id')  # Get the user_id from cookies
     
     if user_id is None:
-        return redirect(url_for('idSignup'))
+        return redirect(url_for('experiment.idSignup'))
 
     form = QuestionForm(request.form)
     signoutForm = SignoutForm(request.form)
@@ -105,7 +95,7 @@ def question():
 
 
     if (user.isPractice() is not True and trials <= 0):
-        return redirect(url_for('complete'))
+        return redirect(url_for('experiment.complete'))
     
     if form.validate_on_submit() and request.form['submit'] == "Submit":
         formCost = form.answer.data
@@ -113,7 +103,7 @@ def question():
 
         if (success):
             print("Switching to submit success")
-            return redirect(url_for('submit_success'))
+            return redirect(url_for('experiment.submit_success'))
         else:
             print("Invalid response cost")
         
