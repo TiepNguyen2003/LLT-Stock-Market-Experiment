@@ -2,6 +2,7 @@ import socket
 import psutil
 from app import create_app
 from waitress import serve
+from config import Config;
 import os
 
 def get_wifi_ip():
@@ -18,10 +19,11 @@ def get_wifi_ip():
 
 if __name__ == '__main__':
     wifi_ip = get_wifi_ip()
-    port = os.environ.get('PORT', 8080)
+    port = Config.PORT
+    host = Config.HOST
     app = create_app()
-    url_scheme = os.environ.get('URL_SCHEME', 'http')
+    url_scheme = Config.URL_SCHEME
     
     print(f"Serving Flask app on http://{wifi_ip if wifi_ip else 'localhost'}:{port}")
     # Bind to 0.0.0.0 to listen on all network interfaces (if needed)
-    serve(app,host='0.0.0.0', port=port, url_scheme = url_scheme)
+    serve(app,host=host, port=port, url_scheme = url_scheme)

@@ -7,6 +7,9 @@ RUN apt-get update \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*\
   pkg-config
+# Allows pings
+RUN apt-get update 
+RUN apt-get install iputils-ping -y
 
 
 
@@ -22,12 +25,12 @@ COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 
 
-COPY ./app /app
+COPY app app
+COPY migrations migrations
 COPY appserver.py config.py ./
+COPY ./scripts/boot.sh ./
+RUN chmod a+x ./boot.sh
 
-RUN flask db init
-RUN flask db migrate -m "First Migration"
-RUN flask db upgrade
 
 
 # Creates a non-root user with an explicit UID and adds permission to access the /app folder
@@ -36,10 +39,9 @@ RUN flask db upgrade
 #USER appuser
 
 
-COPY ./scripts/boot.sh /boot.sh
-RUN chmod +x /boot.sh
+ENV FLASK_ENV=development
+ENV PORT=8000
+ENV HOST=0.0.0.0
 
-EXPOSE 8080
-
-
-CMD ["/boot.sh"]
+EXPOSE 8000
+ENTRYPOINT [ "./boot.sh" ] 

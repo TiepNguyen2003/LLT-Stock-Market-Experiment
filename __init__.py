@@ -14,7 +14,7 @@ DEFAULT_BALANCE = Config.DEFAULT_BALANCE
 csrf = CSRFProtect()
 
 db = SQLAlchemy()
-migrate = Migrate(db)
+migrate = Migrate()
 
 
 def create_app():
