@@ -5,7 +5,7 @@ class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'you-will-never-guess'
     
     
-    DB_PASSWORD = os.environ.get('AZURE_MYSQL_PASSWORD') or 'password'
+    DB_PASSWORD = os.environ.get('DB_PASSWORD') or 'password'
     DB_USER = os.environ.get('DB_USER') or 'user'
     DB_PORT = os.environ.get('DB_PORT') or 3306
     DB_HOST = os.environ.get('DB_HOST') or 'localhost'
