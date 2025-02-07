@@ -2,7 +2,6 @@ from typing import Optional, List
 import sqlalchemy as sa
 import sqlalchemy.orm as so
 import json
-import pytz
 
 from sqlalchemy import ForeignKey
 from sqlalchemy import Integer
@@ -10,12 +9,12 @@ from sqlalchemy.orm import Mapped
 from sqlalchemy.orm import mapped_column
 from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy.orm import relationship
-from datetime import datetime
+from datetime import datetime, timezone
 
 
 
 from app import db, DEFAULT_BALANCE
-from settings.config import Config
+from config import Config
 
 class Participant(db.Model):
     __tablename__ = 'participants'
@@ -82,6 +81,10 @@ class Response(db.Model):
     __tablename__ = 'responses'
     
     response_id: so.Mapped[int] = so.mapped_column(primary_key=True, autoincrement=True)
+    response_time: Mapped[datetime] = mapped_column(
+        default=lambda: datetime.now()
+    )
+
 
     participant_id: Mapped[int] = mapped_column(
         ForeignKey("participants.id", name="fk_responses_participant_id")
@@ -91,11 +94,8 @@ class Response(db.Model):
     
     # investment is a positive value that represents how much the participant spent in this response.
     investment: so.Mapped[int] = so.mapped_column(unique= False)
-    trial: so.Mapped[str] = so.mapped_column(unique=False)  # the response order
+    trial: so.Mapped[str] = so.mapped_column(sa.String(255), unique=False)  # the response order
 
-    response_time: Mapped[datetime] = mapped_column(
-        default=lambda: datetime.now(pytz.timezone('America/Los_Angeles'))
-    )
     def __init__(self, investment):
         
         self.investment = investment
