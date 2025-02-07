@@ -11,12 +11,14 @@ class Config:
     DB_HOST = os.environ.get('DB_HOST') or 'localhost'
     DB_NAME = os.environ.get('DB_NAME') or 'db'
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
-        'mysql+pymysql://' + DB_USER + ':' + DB_PASSWORD + '@' + DB_HOST + ':' + str(DB_PORT) + '/' + DB_NAME
+        'sqlite:///' + os.path.join(basedir, 'test.db')
+        #'mysql+pymysql://' + DB_USER + ':' + DB_PASSWORD + '@' + DB_HOST + ':' + str(DB_PORT) + '/' + DB_NAME
+        
 
     DEBUG = True
     DEFAULT_BALANCE = 2400
-    PRACTICE_BALANCE = 1000
-    PRACTICE_QUESTIONS = 1 # Number of practice questions
+    PRACTICE_BALANCE = 300
+    PRACTICE_QUESTIONS = 3 # Number of practice questions
     TOTAL_QUESTIONS = 24 # Total questions is the number of non practice questions
     QUESTION_PROMPT = "How much would you invest in this company?"
     SURVEY_LINK = "https://ucmerced.az1.qualtrics.com/jfe/form/SV_eu5zvGfv4ZasnD8"
