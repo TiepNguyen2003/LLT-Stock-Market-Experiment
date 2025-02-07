@@ -27,7 +27,11 @@ def idSignup():
             ParticipantHelper.addParticipant(user_id)
         
         resp.set_cookie('user_id', str(user_id), max_age=60*60*3)  # expires after 3 hours
+<<<<<<< Updated upstream
         
+=======
+        print("Logging in " + str(user_id))
+>>>>>>> Stashed changes
         return resp
     else:
         #print("Hello world")
