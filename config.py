@@ -29,3 +29,5 @@ class Config:
     PORT = os.environ.get('PORT') or 8000
     HOST = os.environ.get('HOST') or '0.0.0.0'
     URL_SCHEME = os.environ.get('URL_SCHEME', 'http')
+    WTF_CSRF_TIME_LIMIT = 24*60*60 # 24 hours
+
