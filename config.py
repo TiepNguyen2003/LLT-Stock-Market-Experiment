@@ -3,17 +3,20 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'you-will-never-guess'
-    
+    MODE = os.environ.get('MODE') or 'development' # MODE should be development or production
     
     DB_PASSWORD = os.environ.get('DB_PASSWORD') or 'password'
     DB_USER = os.environ.get('DB_USER') or 'user'
     DB_PORT = os.environ.get('DB_PORT') or 3306
     DB_HOST = os.environ.get('DB_HOST') or 'localhost'
     DB_NAME = os.environ.get('DB_NAME') or 'db'
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
-        'sqlite:///' + os.path.join(basedir, 'test.db')
-        #'mysql+pymysql://' + DB_USER + ':' + DB_PASSWORD + '@' + DB_HOST + ':' + str(DB_PORT) + '/' + DB_NAME
-        
+    SQLALCHEMY_DATABASE_URI = "temp"
+    if (MODE == "production"):
+        SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
+        'mysql+pymysql://' + DB_USER + ':' + DB_PASSWORD + '@' + DB_HOST + ':' + str(DB_PORT) + '/' + DB_NAME
+    else:
+        SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
+            'sqlite:///' + os.path.join(basedir, 'test.db')
 
     DEBUG = True
     DEFAULT_BALANCE = 2400
