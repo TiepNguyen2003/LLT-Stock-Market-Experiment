@@ -10,6 +10,9 @@ from waitress import serve
 
 DEFAULT_BALANCE = Config.DEFAULT_BALANCE
 
+FLASK_RUN_PORT=8000
+FLASK_RUN_HOST="127.0.0.1"
+
 
 csrf = CSRFProtect()
 
@@ -31,6 +34,5 @@ def create_app():
     from app import models
     app.register_blueprint(experiment)    
     return app
-
 
 
