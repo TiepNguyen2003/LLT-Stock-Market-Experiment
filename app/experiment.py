@@ -27,11 +27,7 @@ def idSignup():
             ParticipantHelper.addParticipant(user_id)
         
         resp.set_cookie('user_id', str(user_id), max_age=60*60*3)  # expires after 3 hours
-<<<<<<< Updated upstream
         
-=======
-        print("Logging in " + str(user_id))
->>>>>>> Stashed changes
         return resp
     else:
         #print("Hello world")
@@ -86,19 +82,22 @@ def question():
 
     mode = "None"
     balance = -1
-    trials = -1
+    trial = -1
+    maxTrials = -1
     if (user.isPractice()):
         mode = "Practice"
         balance = user.practiceBalance
-        trials = Config.PRACTICE_QUESTIONS - user.practiceResponseCount
+        trial = user.practiceResponseCount + 1
+        maxTrials = Config.PRACTICE_QUESTIONS
     else:
         mode = "Experiment"
         balance = user.balance
-        trials = Config.TOTAL_QUESTIONS - user.responseCount
+        trial = user.responseCount + 1
+        maxTrials = Config.TOTAL_QUESTIONS
     #print(trials)
 
 
-    if (user.isPractice() is not True and trials <= 0):
+    if (user.isPractice() is not True and trial > Config.TOTAL_QUESTIONS):
         return redirect(url_for('experiment.complete'))
     
     if form.validate_on_submit() and request.form['submit'] == "Submit":
@@ -122,6 +121,7 @@ def question():
                            mode=mode, 
                            questionContent = Config.QUESTION_PROMPT, 
                            currentBalance = balance,
-                           trials = trials)
+                           trial = trial,
+                           maxTrials = maxTrials)
 
 
