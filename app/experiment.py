@@ -82,22 +82,22 @@ def question():
 
     mode = "None"
     balance = -1
-    trials = -1
+    trial = -1
     maxTrials = -1
     if (user.isPractice()):
         mode = "Practice"
         balance = user.practiceBalance
-        trial = Config.PRACTICE_QUESTIONS - user.practiceResponseCount
+        trial = user.practiceResponseCount + 1
         maxTrials = Config.PRACTICE_QUESTIONS
     else:
         mode = "Experiment"
         balance = user.balance
-        trial = Config.TOTAL_QUESTIONS - user.responseCount
+        trial = user.responseCount + 1
         maxTrials = Config.TOTAL_QUESTIONS
     #print(trials)
 
 
-    if (user.isPractice() is not True and trials <= 0):
+    if (user.isPractice() is not True and trial > Config.TOTAL_QUESTIONS):
         return redirect(url_for('experiment.complete'))
     
     if form.validate_on_submit() and request.form['submit'] == "Submit":
