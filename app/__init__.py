@@ -2,7 +2,6 @@ from flask import Flask
 from flask_wtf.csrf import CSRFProtect
 from config import Config
 
-from app.questionContent import QuestionContent
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from waitress import serve
@@ -30,8 +29,8 @@ def create_app():
     db.init_app(app)
     migrate.init_app(app, db)
 
-    from app.experiment import experiment
-    from app import models
+    from app.experimentRoute import experiment
+    from app.models import models
     app.register_blueprint(experiment)    
     return app
 

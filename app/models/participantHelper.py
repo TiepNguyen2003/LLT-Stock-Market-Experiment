@@ -1,6 +1,6 @@
 from app import db, DEFAULT_BALANCE
 from flask import request
-from app.models import Participant, Response
+from app.models.models import Participant, Response
 
 
 '''

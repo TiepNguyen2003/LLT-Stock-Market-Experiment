@@ -2,3 +2,5 @@
 *.db
 /__pycache__
 *.pyc
+notebooks/responses.csv
+notebooks/participants.csv

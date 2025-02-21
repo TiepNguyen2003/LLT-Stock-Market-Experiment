@@ -11,7 +11,7 @@ pip install -r requirements.txt
 ```
 
 
-Use the following commands to create the database
+Create test.db using sqlite shell (google how to do this lol) if it is not already done
 
 ```
 flask db init
@@ -21,9 +21,4 @@ flask db upgrade
 
 This creates a file called app.db which will save your data. This step does not need to be repeated
 
-Running the website can be done with
-
-
-```
-flask run
-```
+Running the website can be done with deploy.py

@@ -1,8 +1,8 @@
 from flask import Blueprint, render_template, request, flash, make_response, redirect, url_for, abort
-from app.questionForm import QuestionForm
-from app.idForm import idForm
-from app.participantHelper import ParticipantHelper
-from app.signoutForm import SignoutForm
+from app.forms.questionForm import QuestionForm
+from app.forms.idForm import idForm
+from app.models.participantHelper import ParticipantHelper
+from app.forms.signoutForm import SignoutForm
 from config import Config
 
 experiment = Blueprint('experiment', __name__, template_folder='templates')
