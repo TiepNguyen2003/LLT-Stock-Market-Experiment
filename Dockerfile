@@ -1,5 +1,5 @@
 # For more information, please refer to https://aka.ms/vscode-docker-python
-FROM python:3.12-slim
+FROM python:3.12
 
 RUN apt-get update \
   && DEBIAN_FRONTEND=noninteractive apt-get install -y \
@@ -28,9 +28,11 @@ RUN pip install -r requirements.txt
 COPY app app
 #COPY migrations migrations
 COPY appserver.py config.py deploy.py ./
-COPY ./scripts/boot.sh ./boot.sh
+COPY ./scripts/boot.sh ./
 RUN mkdir data
-chmod a+x boot.sh
+RUN chmod a+x boot.sh
+RUN ls -l /
+
 
 
 
