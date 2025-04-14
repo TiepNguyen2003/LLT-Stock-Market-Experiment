@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  flask-app:
+    build: .
+    container_name: flask-app
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data:/data
+    environment:
+      FLASK_ENV: development
+      PORT: 8000
+      HOST: 0.0.0.0
+    entrypoint: ["./boot.sh"]

@@ -1,5 +1,5 @@
 # For more information, please refer to https://aka.ms/vscode-docker-python
-FROM python:3.12
+FROM python:3.12-slim
 
 RUN apt-get update \
   && DEBIAN_FRONTEND=noninteractive apt-get install -y \
@@ -12,7 +12,7 @@ RUN apt-get update
 RUN apt-get install iputils-ping -y
 
 
-
+  
 # Keeps Python from generating .pyc files in the container
 ENV PYTHONDONTWRITEBYTECODE=1
 
@@ -26,10 +26,11 @@ RUN pip install -r requirements.txt
 
 
 COPY app app
-COPY migrations migrations
-COPY appserver.py config.py ./
-COPY ./scripts/boot.sh ./
-RUN chmod a+x ./boot.sh
+#COPY migrations migrations
+COPY appserver.py config.py deploy.py ./
+COPY ./scripts/boot.sh ./boot.sh
+RUN mkdir data
+chmod a+x boot.sh
 
 
 

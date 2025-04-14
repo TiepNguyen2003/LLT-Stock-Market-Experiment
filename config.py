@@ -13,10 +13,10 @@ class Config:
     SQLALCHEMY_DATABASE_URI = "temp"
     if (MODE == "production"):
         SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
-        'mysql+pymysql://' + DB_USER + ':' + DB_PASSWORD + '@' + DB_HOST + ':' + str(DB_PORT) + '/' + DB_NAME
+        'sqlite:///' + os.path.join(basedir, 'data/app.db')
     else:
         SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
-            'sqlite:///' + os.path.join(basedir, 'test.db')
+            'sqlite:///' + os.path.join(basedir, 'app.db')
 
     DEBUG = True
     DEFAULT_BALANCE = 2400
