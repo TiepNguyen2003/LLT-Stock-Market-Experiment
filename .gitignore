@@ -1,10 +1,10 @@
 .env
 *.db
-/__pycache__
+__pycache__
+data/
 *.pyc
 notebooks/responses.csv
 notebooks/participants.csv
 *.pub
 notes.md
 
-notes.md
