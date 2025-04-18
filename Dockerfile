@@ -25,14 +25,21 @@ COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 
 
-COPY app app
+#COPY app app
 #COPY migrations migrations
-COPY appserver.py config.py deploy.py ./
-COPY ./scripts/boot.sh ./
-RUN mkdir data
-RUN chmod a+x boot.sh
-RUN ls -l /
+#COPY appserver.py config.py deploy.py ./
+#COPY ./scripts/boot.sh ./
+#RUN mkdir data
+#RUN chmod a+x boot.sh
+#RUN ls -l /
 
+
+COPY ./app /app
+COPY appserver.py config.py ./
+
+RUN flask db init
+RUN flask db migrate -m "First Migration"
+RUN flask db upgrade
 
 
 
@@ -41,10 +48,9 @@ RUN ls -l /
 #RUN adduser -u 5678 --disabled-password --gecos "" appuser && chown -R appuser /app
 #USER appuser
 
+COPY ./scripts/boot.sh /boot.sh
+RUN chmod +x /boot.sh
 
-ENV FLASK_ENV=development
-ENV PORT=8000
-ENV HOST=0.0.0.0
+EXPOSE 8080
 
-EXPOSE 8000
-ENTRYPOINT [ "./boot.sh" ] 
+CMD ["/boot.sh"]
