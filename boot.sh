@@ -1,9 +1,20 @@
 #!/bin/bash
 # this script is used to boot a Docker container
-ls
-flask db init
-flask db migrate -m "First Migration"
-flask db upgrade
+
+
+while true; do
+    if [ ! -d "migrations" ]; then
+        flask db init
+        flask db migrate -m "First Migration"
+    fi
+
+    flask db upgrade
+    if [[ "$?" == "0" ]]; then
+        break
+    fi
+    echo Upgrade command failed, retrying in 5 secs...
+    sleep 5
+done
 
 
 exec gunicorn -b :8000 --access-logfile - --error-logfile - appserver:app
