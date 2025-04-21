@@ -1,9 +1,13 @@
 .env
 *.db
-/__pycache__
+__pycache__
+data/
 *.pyc
 notebooks/responses.csv
 notebooks/participants.csv
 /data
 sshKeyOracleApp.pub
 notes.md
+*.pub
+notes.md
+

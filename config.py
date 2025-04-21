@@ -13,16 +13,16 @@ class Config:
     SQLALCHEMY_DATABASE_URI = "temp"
     if (MODE == "production"):
         SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
-        'mysql+pymysql://' + DB_USER + ':' + DB_PASSWORD + '@' + DB_HOST + ':' + str(DB_PORT) + '/' + DB_NAME
+        'sqlite:///' + os.path.join(basedir, 'data/app.db')
     else:
         SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
-            'sqlite:///' + os.path.join(basedir, 'test.db')
+            'sqlite:///' + os.path.join(basedir, 'data/app.db')
 
     DEBUG = True
-    DEFAULT_BALANCE = 2400
+    DEFAULT_BALANCE = 3600
     PRACTICE_BALANCE = 300
     PRACTICE_QUESTIONS = 3 # Number of practice questions
-    TOTAL_QUESTIONS = 24 # Total questions is the number of non practice questions
+    TOTAL_QUESTIONS = 36 # Total questions is the number of non practice questions
     QUESTION_PROMPT = "How much would you invest in this company?"
     SURVEY_LINK = "https://ucmerced.az1.qualtrics.com/jfe/form/SV_eu5zvGfv4ZasnD8"
 

@@ -11,8 +11,8 @@ RUN apt-get update \
 RUN apt-get update 
 RUN apt-get install iputils-ping -y
 
-
-
+WORKDIR /helia_app
+  
 # Keeps Python from generating .pyc files in the container
 ENV PYTHONDONTWRITEBYTECODE=1
 
@@ -25,23 +25,31 @@ COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 
 
-COPY app app
-COPY migrations migrations
-COPY appserver.py config.py ./
-COPY ./scripts/boot.sh ./
-RUN chmod a+x ./boot.sh
+#COPY app app
+#COPY migrations migrations
+#COPY appserver.py config.py deploy.py ./
+#COPY ./scripts/boot.sh ./
+#RUN mkdir data
+#RUN chmod a+x boot.sh
+#RUN ls -l /
+# Copy app files into the working directory
+COPY ./app ./app
+COPY appserver.py config.py wsgi.py ./
+RUN mkdir data
 
+# Flask DB setup
+RUN flask db init
+RUN flask db migrate -m "First Migration"
+RUN flask db upgrade
 
-
-# Creates a non-root user with an explicit UID and adds permission to access the /app folder
-# For more info, please refer to https://aka.ms/vscode-docker-python-configure-containers
+# Optional: non-root user (currently commented out)
 #RUN adduser -u 5678 --disabled-password --gecos "" appuser && chown -R appuser /app
 #USER appuser
 
+# Copy and set permission for boot script
+COPY ./boot.sh ./boot.sh
+RUN chmod +x ./boot.sh
 
-ENV FLASK_ENV=development
-ENV PORT=8000
-ENV HOST=0.0.0.0
 
-EXPOSE 8000
-ENTRYPOINT [ "./boot.sh" ] 
+# Run the app
+CMD ["bash", "./boot.sh"]
