@@ -35,6 +35,7 @@ RUN pip install -r requirements.txt
 # Copy app files into the working directory
 COPY ./app ./app
 COPY appserver.py config.py wsgi.py ./
+RUN mkdir data
 
 # Flask DB setup
 RUN flask db init
@@ -49,8 +50,6 @@ RUN flask db upgrade
 COPY ./boot.sh ./boot.sh
 RUN chmod +x ./boot.sh
 
-# Expose app port
-EXPOSE 8080
 
 # Run the app
 CMD ["bash", "./boot.sh"]

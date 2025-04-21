@@ -16,7 +16,7 @@ class Config:
         'sqlite:///' + os.path.join(basedir, 'data/app.db')
     else:
         SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
-            'sqlite:///' + os.path.join(basedir, 'app.db')
+            'sqlite:///' + os.path.join(basedir, 'data/app.db')
 
     DEBUG = True
     DEFAULT_BALANCE = 3600

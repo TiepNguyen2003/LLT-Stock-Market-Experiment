@@ -3,12 +3,7 @@
 
 
 while true; do
-    if [ ! -d "migrations" ]; then
-        flask db init
-        flask db migrate -m "First Migration"
-    fi
 
-    flask db upgrade
     if [[ "$?" == "0" ]]; then
         break
     fi

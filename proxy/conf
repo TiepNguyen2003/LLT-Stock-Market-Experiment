@@ -2,6 +2,12 @@ server {
     listen 80;
 
     location / {
+
+        allow 169.236.78.21;
+        allow 169.236.78.22;
+        allow 169.236.78.23;
+        deny all;
+        
         proxy_pass http://app:8000;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;

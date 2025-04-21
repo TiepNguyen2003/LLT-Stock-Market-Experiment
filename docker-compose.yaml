@@ -7,31 +7,33 @@ services:
       dockerfile: Dockerfile
     expose:
       - 8000
-    depends_on:
-      - db
-    environment:
-      - DATABASE_URL=mysql+pymysql://Tiep:tiep123@helia_database:3306/helia_database
-    volumes: []
+    depends_on: []
+    #  - db
+    environment: []
+    #  - DATABASE_URL=mysql+pymysql://Tiep:tiep123@helia_database:3306/helia_database
+    volumes:
+      - /root/Helia-s-Project-API/data/:/helia_app/data
     networks:
       - backnet
       - frontnet
-
-  db:
-    container_name: helia_database
-    image: mysql
     restart: unless-stopped
-    environment:
-      MYSQL_RANDOM_ROOT_PASSWORD: yes
-      MYSQL_DATABASE: helia_database
-      MYSQL_USER: Tiep
-      MYSQL_PASSWORD: tiep123
-    volumes:
-      - C:\Users\Trieu\OneDrive\Documents\Programming\Helia's Project API\data:/var/lib/mysql
-    networks:
-      - backnet
-    expose:
-      - 3306
-      - 33060
+
+  # db:
+  #   container_name: helia_database
+  #   image: mysql
+  #   restart: unless-stopped
+  #   environment:
+  #     MYSQL_RANDOM_ROOT_PASSWORD: yes
+  #     MYSQL_DATABASE: helia_database
+  #     MYSQL_USER: Tiep
+  #     MYSQL_PASSWORD: tiep123
+  #   volumes:
+  #     - C:\Users\Trieu\OneDrive\Documents\Programming\Helia's Project API\data:/var/lib/mysql
+  #   networks:
+  #     - backnet
+  #   expose:
+  #     - 3306
+  #     - 33060
 
   nginx:
     build: proxy
@@ -43,6 +45,7 @@ services:
       - app
     networks:
       - frontnet
+    restart: unless-stopped
 
 
 volumes:
