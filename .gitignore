@@ -4,3 +4,6 @@
 *.pyc
 notebooks/responses.csv
 notebooks/participants.csv
+/data
+sshKeyOracleApp.pub
+notes.md
