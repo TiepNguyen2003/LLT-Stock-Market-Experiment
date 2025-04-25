@@ -1,11 +1,72 @@
-from flask import Blueprint, render_template, request, flash, make_response, redirect, url_for, abort
+import csv
+import io
+from flask import Blueprint, render_template, request, flash, make_response, redirect, send_file, url_for, abort
 from app.forms.questionForm import QuestionForm
+from app.forms.downloadForm import downloadForm
 from app.forms.idForm import idForm
+from app.models.models import Participant, Response
 from app.models.participantHelper import ParticipantHelper
 from app.forms.signoutForm import SignoutForm
+from app import db;
 from config import Config
+import pandas as pd
+from io import BytesIO, StringIO
+
 
 experiment = Blueprint('experiment', __name__, template_folder='templates')
+
+
+@experiment.route('/download_responses', methods=['GET', 'POST'])
+def download_responses():
+    '''responses = db.session.query(Response).all()
+
+    response = make_response(df.to_csv(pth))
+    response.headers["Content-Disposition"] = "attachment; filename=export.csv"
+    response.headers["Content-type"] = "text/csv"'''
+    signoutForm = SignoutForm(request.form)
+    form = downloadForm(request.form)
+
+    if signoutForm.validate_on_submit() and request.form['submit'] == "Sign out":
+        return _signout()
+    
+    if form.validate_on_submit():
+        contentType = form.content_type.data
+        query = None
+        if contentType == "responses":
+            query = db.session.query(Response).all()
+        elif contentType == "participants":
+            query = db.session.query(Participant).all()
+        else:
+            return abort(400, "Invalid content type")
+        si = StringIO()
+        writer = csv.writer(si)
+        if query:
+            # Write headers using the first object
+            writer.writerow(query[0].__table__.columns.keys())
+            for row in query:
+                writer.writerow([getattr(row, col) for col in row.__table__.columns.keys()])
+
+        output = BytesIO()
+        output.write(si.getvalue().encode('utf-8'))
+        output.seek(0)
+
+        return send_file(
+            output,
+            mimetype='text/csv',
+            as_attachment=True,
+            download_name=f"{contentType}.csv"
+        )
+
+
+    
+    return render_template('download_responses.html',
+                           form=form,
+                           signout= signoutForm)
+    
+
+
+
+
 
 @experiment.route('/', methods=['GET', 'POST'])
 def idSignup():
@@ -123,5 +184,3 @@ def question():
                            currentBalance = balance,
                            trial = trial,
                            maxTrials = maxTrials)
-
-

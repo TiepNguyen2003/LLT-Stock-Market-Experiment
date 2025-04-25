@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% from "_formhelpers.html" import render_field %}
+
+
+{% block content %}
+  <form method=post class = "signout-button">
+    {{ signout.hidden_tag() }}
+    {{ signout.csrf_token }}
+    <dl>
+      {{ signout.submit()}}
+    </dl>
+
+  </form>
+
+  <div class = "container">
+    
+    <div class = "container-text">
+      <h1 class = "text-center-horizontal">{{ textContent }}</h1>
+    </div>
+
+    <form method=post class = "download-form">
+        {{ form.hidden_tag() }}
+        <label for="content_type">{{ form.content_type.label }}</label>
+        {{ form.content_type() }}
+        <br><br>
+        {{ form.csrf_token }}
+        {{ form.submit()}}
+    </form>
+
+    
+  </div>
+
+
+{% endblock %}
