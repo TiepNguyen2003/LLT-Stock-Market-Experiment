@@ -18,6 +18,6 @@ Advanced users can use the provided dockerfiles to host
 
 ## Contact
 
-For programming/deployment questions contact me at tiep123@trieuvan.com
+For programming/deployment questions, contact Tiep Nguyen at tiep123@trieuvan.com
 
 
