@@ -10,9 +10,8 @@ services:
     depends_on: []
     #  - db
     environment: []
-    #  - DATABASE_URL=mysql+pymysql://Tiep:tiep123@helia_database:3306/helia_database
     volumes:
-      - /root/Helia-s-Project-API/data/:/helia_app/data
+      - LOCAL_DRIVE:/helia_app/data
     networks:
       - backnet
       - frontnet
@@ -24,11 +23,11 @@ services:
   #   restart: unless-stopped
   #   environment:
   #     MYSQL_RANDOM_ROOT_PASSWORD: yes
-  #     MYSQL_DATABASE: helia_database
-  #     MYSQL_USER: Tiep
-  #     MYSQL_PASSWORD: tiep123
+  #     MYSQL_DATABASE: 
+  #     MYSQL_USER: 
+  #     MYSQL_PASSWORD: 
   #   volumes:
-  #     - C:\Users\Trieu\OneDrive\Documents\Programming\Helia's Project API\data:/var/lib/mysql
+  #     - 
   #   networks:
   #     - backnet
   #   expose:

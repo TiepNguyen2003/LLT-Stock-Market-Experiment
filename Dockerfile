@@ -24,31 +24,21 @@ ENV PYTHONUNBUFFERED=1
 COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 
-
-#COPY app app
-#COPY migrations migrations
-#COPY appserver.py config.py deploy.py ./
-#COPY ./scripts/boot.sh ./
-#RUN mkdir data
-#RUN chmod a+x boot.sh
-#RUN ls -l /
 # Copy app files into the working directory
 COPY ./app ./app
 COPY appserver.py config.py wsgi.py ./
 RUN mkdir data
 
-# Flask DB setup
-RUN flask db init
-RUN flask db migrate -m "First Migration"
-RUN flask db upgrade
-
-# Optional: non-root user (currently commented out)
-#RUN adduser -u 5678 --disabled-password --gecos "" appuser && chown -R appuser /app
-#USER appuser
+# Run Startup
+COPY ./startup.sh ./startup.sh
+RUN chmod +x ./startup.sh
+RUN ./startup.sh
 
 # Copy and set permission for boot script
 COPY ./boot.sh ./boot.sh
 RUN chmod +x ./boot.sh
+
+
 
 
 # Run the app

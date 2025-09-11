@@ -1,24 +1,23 @@
-HOW TO HOST
+# README
+
+
+## Setup
 
 Requires python 3.12
 
-- In VSCODE/your favorite IDE clone the repository
+1. Install the [virtual environment](https://www.arch.jhu.edu/python-virtual-environments/) for python3
+2. Run "pip install -r requirements.txt"
+3. Copy example.env, rename it to .env and put in your configuration variables.
+4. Run startup.sh or the commands listed in it.
+5. Deployment can be ran with boot.sh (reccommended for Linux) or for local hosting, run deploy.py
 
-- Create a virtual environment using VSCode (or these https://www.arch.jhu.edu/python-virtual-environments/)
-- Use the following commands
-```
-pip install -r requirements.txt
-```
+Advanced users can use the provided dockerfiles to host
+
+## Implementation Details
+- API routes are in experimentroute. We use SQLAlchemy ORM to represent users and responses.
+
+## Contact
+
+For programming/deployment questions contact me at tiep123@trieuvan.com
 
 
-Create test.db using sqlite shell (google how to do this lol) if it is not already done
-
-```
-flask db init
-flask db migrate -m "First Migration"
-flask db upgrade
-```
-
-This creates a file called app.db which will save your data. This step does not need to be repeated
-
-Running the website can be done with deploy.py

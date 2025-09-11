@@ -90,9 +90,6 @@ def idSignup():
         resp.set_cookie('user_id', str(user_id), max_age=60*60*3)  # expires after 3 hours
         
         return resp
-    else:
-        #print("Hello world")
-        print(form.errors)
 
     return resp
 
@@ -108,7 +105,7 @@ def complete():
 def submit_success():
 
     #data = request.json
-    print(request.form)
+    #print(request.form)
 
     if (request.method == 'POST'):
         print("Switching screen")

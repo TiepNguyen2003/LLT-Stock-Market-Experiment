@@ -3,6 +3,6 @@ import sqlalchemy.orm as so
 from app import create_app, db
 
 '''
-why do we need this again? i think this is an entrypoint for one of the production things
+Entrypoint for wsgi 
 '''
 app = create_app()
