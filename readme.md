@@ -14,7 +14,7 @@ Requires python 3.12
 Advanced users can use the provided dockerfiles to host
 
 ## Implementation Details
-- API routes are in experimentroute. We use SQLAlchemy ORM to represent users and responses.
+- The experiment website was built with using the Python Flask framework in order to receive information. For the frontend, we used primarily HTML, CSS and Javascript to deliver interactivity. The backend, written with Flask, used SQLAlchemy as a layer over the MySQL database. This website was deployed on a Docker container on a VM hosted in the cloud that used NGINX as a router. No identifiable data was held on 3rd party environments.
 
 ## Contact
 
